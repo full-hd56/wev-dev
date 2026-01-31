@@ -1,0 +1,148 @@
+.b_test{
+    background-color: red;
+    color: red;
+}
+.main_c{
+    background-color: #4643E0;
+}
+.big1_f{
+    font-size: 7vh;
+}
+.big2_f{
+    font-size: 30px;
+}
+.norm_f{
+    font-size: 20px;
+}
+.pos{
+    position: relative;
+}
+.nav_but{
+    width: 150px;
+    height: 65px;
+}
+.c-end {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: end;
+}
+.c-mid {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    justify-content: center;
+}
+.to_mid{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%,0%);
+}
+.box_test{
+    width: 20vh;
+    height: 20vh;
+    background-color: red;
+}
+.b_test2{
+    background-color: pink;
+}
+.row_1{
+    display: flex;
+    gap: 30px;
+}
+.row_no_gap{
+    display: flex;
+    gap: 0px;
+}
+.v_mid{
+    position: relative;
+    top: 50%;
+    transform: translate( 0%,-50%);
+}
+.border1{
+    border: 2px solid black;
+}
+.border2{
+    border: 2px solid black;
+    border-radius: 15px;
+}
+.pos_mid{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.align_mid{
+    align-content: center;
+    gap: 5px;
+}
+.nav_c_pt{
+    color: #BD0250;
+}
+.field1{
+    border: 1px solid gray;
+}
+.circle {
+    background: black;
+    width: 25vh;
+    height: 25vh;
+    border-radius: 50%;
+}
+.allow_to_fill{
+    display: flex;
+    flex-direction: column;
+}
+.box_from_remain {
+  flex-grow: 1;
+}
+.scroll_box{
+    /*border: 1px solid #ccc;*/
+    overflow: auto; 
+    scrollbar-width: 5%;
+    /*scrollbar-color: #4a4a4a #f1f1f1;*/
+}
+.food_background{
+    position: relative;
+    width: 90%;
+    /*height: 90%;*/
+    aspect-ratio: 1 / 1;
+    background-color: black;
+    top: 6%;
+    left: 10%;
+}
+.align_end{
+    align-content: end;
+    gap: 1%;
+}
+.btn_border {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.align_I_even{
+    display: flex;
+  flex-direction: column;   
+  justify-content: space-evenly;
+
+}
+.align_r{
+    display: flex;
+    justify-content: flex-end;
+}
+.align_-_even{
+    display: flex;
+    justify-content: space-evenly;
+}
+.container{
+    display: flex;
+}
+.left_auto{
+    margin-left: auto;
+}
+
+.circle {
+    border-radius: 50%;
+}
