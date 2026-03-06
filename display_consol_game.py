@@ -4,6 +4,8 @@ from PIL import Image
 
 class console:
     def __init__(self):
+        self.player_x = 255
+        self.player_y = 630
 
         self.app = ui.CTk()
         self.app.title("client")
@@ -25,11 +27,13 @@ class console:
         # BACKGROUND
         # ======================
         self.bg_img = ui.CTkImage(Image.open("home.jpg"), size=(716, 700))
+
         self.bg_label = ui.CTkLabel(self.frame_R, text="", image=self.bg_img)
         self.bg_label.place(x=0, y=0)
 
         # wall
         self.collision = Image.open("collision_map.png").convert("L")
+        #self.collision = self.collision.resize((716, 700))
 
         # ======================
         # PLAYER
@@ -38,8 +42,7 @@ class console:
 
         self.player = ui.CTkLabel(self.frame_R, text="", image=self.player_img)
 
-        self.player_x = 200
-        self.player_y = 200
+
 
         self.player.place(x=self.player_x, y=self.player_y)
 
@@ -70,8 +73,8 @@ class console:
 
     def can_move(self, x, y):
 
-        if x < 0 or y < 0 or x >= 716 or y >= 716:
-            return False
+        #if x < 0 or y < 0 or x >= 716 or y >= 716:
+            #return False
 
         pixel = self.collision.getpixel((int(x), int(y)))
 
@@ -118,10 +121,15 @@ class console:
             self.player_x = new_x
             self.player_y = new_y
             self.player.place(x=self.player_x, y=self.player_y)
+
         # move player
         # self.player.place(x=self.player_x, y=self.player_y)
+
         # update label
         self.xy_label.configure(text=f"Player x:{self.player_x} y:{self.player_y}")
+
         # loop
         self.app.after(16, self.update)
+
+
 console()
