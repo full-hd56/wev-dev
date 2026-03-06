@@ -1,6 +1,7 @@
 import customtkinter as ui
 from PIL import Image
 
+
 class console:
     def __init__(self):
 
@@ -23,14 +24,17 @@ class console:
         # ======================
         # BACKGROUND
         # ======================
-        self.bg_img = ui.CTkImage(Image.open("home.jpg"), size=(716,700))
+        self.bg_img = ui.CTkImage(Image.open("home.jpg"), size=(716, 700))
         self.bg_label = ui.CTkLabel(self.frame_R, text="", image=self.bg_img)
         self.bg_label.place(x=0, y=0)
+
+        # wall
+        self.collision = Image.open("collision_map.png").convert("L")
 
         # ======================
         # PLAYER
         # ======================
-        self.player_img = ui.CTkImage(Image.open("walk_point.png"), size=(40,40))
+        self.player_img = ui.CTkImage(Image.open("walk_point.png"), size=(40, 40))
 
         self.player = ui.CTkLabel(self.frame_R, text="", image=self.player_img)
 
@@ -64,6 +68,15 @@ class console:
         if event.keysym.lower() in self.keys:
             self.keys.remove(event.keysym.lower())
 
+    def can_move(self, x, y):
+
+        if x < 0 or y < 0 or x >= 716 or y >= 716:
+            return False
+
+        pixel = self.collision.getpixel((int(x), int(y)))
+
+        return pixel > 200
+
     # ======================
     # GAME LOOP
     # ======================
@@ -71,41 +84,44 @@ class console:
 
         speed = 5
 
+        new_x = self.player_x
+        new_y = self.player_y
+
         if "w" in self.keys:
-            self.player_y -= speed
+            new_y -= speed
 
         if "s" in self.keys:
-            self.player_y += speed
+            new_y += speed
 
         if "a" in self.keys:
-            self.player_x -= speed
+            new_x -= speed
 
         if "d" in self.keys:
-            self.player_x += speed
+            new_x += speed
 
         # ======================
         # LIMIT MAP
         # ======================
-        if self.player_x < 0:
-            self.player_x = 0
+        if new_x < 0:
+            new_x = 0
 
-        if self.player_y < 0:
-            self.player_y = 0
+        if new_y < 0:
+            new_y = 0
 
-        if self.player_x > 676:
-            self.player_x = 676
+        if new_x > 676:
+            new_x = 676
 
-        if self.player_y > 660:
-            self.player_y = 660
+        if new_y > 660:
+            new_y = 660
 
+        if self.can_move(new_x, new_y):
+            self.player_x = new_x
+            self.player_y = new_y
+            self.player.place(x=self.player_x, y=self.player_y)
         # move player
-        self.player.place(x=self.player_x, y=self.player_y)
-
+        # self.player.place(x=self.player_x, y=self.player_y)
         # update label
         self.xy_label.configure(text=f"Player x:{self.player_x} y:{self.player_y}")
-
         # loop
         self.app.after(16, self.update)
-
-
 console()
