@@ -4,8 +4,6 @@ from PIL import Image
 
 class console:
     def __init__(self):
-        self.player_x = 255
-        self.player_y = 630
 
         self.app = ui.CTk()
         self.app.title("client")
@@ -14,11 +12,11 @@ class console:
         # ======================
         # FRAME MAP
         # ======================
-        self.frame_R = ui.CTkFrame(self.app, width=716, height=700, corner_radius=10)
+        self.frame_R = ui.CTkFrame(self.app, width=716, height=700)
         self.frame_R.place(x=300, y=0)
 
         # ======================
-        # LABEL SHOW XY
+        # LABEL XY
         # ======================
         self.xy_label = ui.CTkLabel(self.app, text="Player x:0 y:0")
         self.xy_label.place(x=10, y=10)
@@ -27,22 +25,28 @@ class console:
         # BACKGROUND
         # ======================
         self.bg_img = ui.CTkImage(Image.open("home.jpg"), size=(716, 700))
-
         self.bg_label = ui.CTkLabel(self.frame_R, text="", image=self.bg_img)
         self.bg_label.place(x=0, y=0)
 
-        # wall
-        self.collision = Image.open("collision_map.png").convert("L")
-        #self.collision = self.collision.resize((716, 700))
+        # ======================
+        # WALL POSITION
+        # ======================
+        # (x1,y1,x2,y2)
+        self.walls = [
+
+            (45,550,305,550),
+            (385, 555, 660, 555)
+
+        ]
 
         # ======================
         # PLAYER
         # ======================
-        self.player_img = ui.CTkImage(Image.open("walk_point.png"), size=(40, 40))
-
+        self.player_img = ui.CTkImage(Image.open("walk_point.png"), size=(30, 30))
         self.player = ui.CTkLabel(self.frame_R, text="", image=self.player_img)
 
-
+        self.player_x = 300
+        self.player_y = 300
 
         self.player.place(x=self.player_x, y=self.player_y)
 
@@ -56,29 +60,31 @@ class console:
 
         self.app.focus_set()
 
-        # game loop
         self.update()
-
         self.app.mainloop()
 
     # ======================
-    # KEY PRESS
+    # KEY
     # ======================
     def key_press(self, event):
         self.keys.add(event.keysym.lower())
 
     def key_release(self, event):
-        if event.keysym.lower() in self.keys:
-            self.keys.remove(event.keysym.lower())
+        self.keys.discard(event.keysym.lower())
 
+    # ======================
+    # CHECK WALL
+    # ======================
     def can_move(self, x, y):
 
-        #if x < 0 or y < 0 or x >= 716 or y >= 716:
-            #return False
+        for wall in self.walls:
 
-        pixel = self.collision.getpixel((int(x), int(y)))
+            x1,y1,x2,y2 = wall
 
-        return pixel > 200
+            if x >= x1 and x <= x2 and y >= y1 and y <= y2:
+                return False
+
+        return True
 
     # ======================
     # GAME LOOP
@@ -102,34 +108,14 @@ class console:
         if "d" in self.keys:
             new_x += speed
 
-        # ======================
-        # LIMIT MAP
-        # ======================
-        if new_x < 0:
-            new_x = 0
-
-        if new_y < 0:
-            new_y = 0
-
-        if new_x > 676:
-            new_x = 676
-
-        if new_y > 660:
-            new_y = 660
-
-        if self.can_move(new_x, new_y):
+        if self.can_move(new_x,new_y):
             self.player_x = new_x
             self.player_y = new_y
-            self.player.place(x=self.player_x, y=self.player_y)
+            self.player.place(x=self.player_x,y=self.player_y)
 
-        # move player
-        # self.player.place(x=self.player_x, y=self.player_y)
+        self.xy_label.configure(text=f"x:{self.player_x} y:{self.player_y}")
 
-        # update label
-        self.xy_label.configure(text=f"Player x:{self.player_x} y:{self.player_y}")
-
-        # loop
-        self.app.after(16, self.update)
+        self.app.after(16,self.update)
 
 
 console()
